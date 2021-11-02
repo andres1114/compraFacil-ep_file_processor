@@ -73,7 +73,7 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
             $query_args = array(
                 'filename' => $temp_file
             );
-            $query = "SELECT id FROM ep_file_queue WHERE ep_file_name = :filename";
+            $query = "SELECT id FROM epfiles_queue WHERE ep_file_name = :filename";
             $queryData = pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_1");
 
             if ($queryData[1] == 0) {
