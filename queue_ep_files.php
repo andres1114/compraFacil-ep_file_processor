@@ -29,6 +29,10 @@ $main_directory_listing = scandir($ep_file_path.$epfile_folder,SCANDIR_SORT_ASCE
 
 //Go through the folders and files
 for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
+    if (!in_array($main_directory_listing[$x], $ignored_files)) {
+        verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "'".$main_directory_listing."' is not an accepted file or directory, skipping", "logName" => "main_php"));
+        continue;
+    }
     $folder_nydate = $main_directory_listing[$x];
 
     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking if folder ".$folder_nydate." is empty...", "logName" => "main_php"));
@@ -47,7 +51,6 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
 
     if ($temp_directory_counter > 0) {
         $is_folder_empty = false;
-        break;
     } else {
         $is_folder_empty = true;
     }
