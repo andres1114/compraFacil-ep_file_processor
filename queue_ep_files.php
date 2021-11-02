@@ -29,7 +29,7 @@ $main_directory_listing = scandir($ep_file_path.$epfile_folder,SCANDIR_SORT_ASCE
 
 //Go through the folders and files
 for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
-    if (!in_array($main_directory_listing[$x], $ignored_files)) {
+    if (in_array($main_directory_listing[$x], $ignored_files)) {
         verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "'".$main_directory_listing."' is not an accepted file or directory, skipping", "logName" => "main_php"));
         continue;
     }
