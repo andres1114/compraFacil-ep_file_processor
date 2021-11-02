@@ -75,7 +75,7 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
                     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has not been queued", "logName" => "main_php"));
                     $query_args = array(
                         'filename' => $temp_file,
-                        'datefolder' =>
+                        'datefolder' => $folder_nydate[$y]
                 );
                     $query = "INSERT INTO epfiles_queue (ep_file_name, has_been_proccesed, date_folder, is_in_process) VALUES (:filename, 0, :datefolder, 0)";
                     pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
