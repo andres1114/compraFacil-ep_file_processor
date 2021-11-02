@@ -3,7 +3,7 @@
 	function verbose($args) {
         switch ($args["outputMode"]) {
             case 0:
-                echo $args["outputMessage"];
+                echo $args["outputMessage"]."\n";
                 break;
             case 1:
                 echo $args["outputMessage"];
