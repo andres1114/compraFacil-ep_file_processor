@@ -68,7 +68,7 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
                 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "$temp_file' is not an accepted file or directory, skipping", "logName" => "main_php"));
                 continue;
             }
-            verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether file '$temp_file' is already queued", "logName" => "main_php"));
+            verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether file '$temp_file' is already queued...", "logName" => "main_php"));
 
             $query_args = array(
                 'filename' => $temp_file
@@ -77,13 +77,14 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
             $queryData = pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_1");
 
             if ($queryData[1] == 0) {
-                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has not been queued", "logName" => "main_php"));
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has not been queued, queuing", "logName" => "main_php"));
                 $query_args = array(
                     'filename' => $temp_file,
                     'datefolder' => $folder_nydate
                 );
                 $query = "INSERT INTO epfiles_queue (ep_file_name, has_been_proccesed, date_folder, is_in_process) VALUES (:filename, 0, :datefolder, 0)";
                 pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done", "logName" => "main_php"));
             } else {
                 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has already been queued, skipping", "logName" => "main_php"));
                 continue;
