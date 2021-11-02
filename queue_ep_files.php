@@ -14,8 +14,7 @@ verbose(array("outputMode" => 0, "outputMessage" => "Starting the ep_file proces
 
 verbose(array("outputMode" => 0, "outputMessage" => "Connecting to the CompraFacil database...", "logName" => "main_php"));
 //Create the PDO connection objects
-$pdo_mysql = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "192.168.10.19", 'db_user' => "root", 'db_pass' => "admin", 'db_name' => "compraFacil"));
-$pdo_misc_database = pdoCreateConnection(array('db_type' => "sqlite", 'db_host' => realpath(__DIR__).'/misc_database.sqlite3', 'db_user' => "root", 'db_pass' => "", 'db_name' => ""));
+$pdo_sqlite_db = pdoCreateConnection(array('db_type' => "sqlite", 'db_host' => realpath(__DIR__).'/misc_database.sqlite3', 'db_user' => "root", 'db_pass' => "", 'db_name' => ""));
 verbose(array("outputMode" => 0, "outputMessage" => "Done", "logName" => "main_php"));
 
 //Define the constants
@@ -30,7 +29,7 @@ $main_directory_listing = scandir($ep_file_path.$epfile_folder,SCANDIR_SORT_ASCE
 //Go through the folders and files
 for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
     if (in_array($main_directory_listing[$x], $ignored_files)) {
-        verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "'".$main_directory_listing."' is not an accepted file or directory, skipping", "logName" => "main_php"));
+        verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "'".$main_directory_listing[$x]."' is not an accepted file or directory, skipping", "logName" => "main_php"));
         continue;
     }
     $folder_nydate = $main_directory_listing[$x];
@@ -64,6 +63,11 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
         $temp_file_listing = scandir($ep_file_path.$epfile_folder."/".$folder_nydate,SCANDIR_SORT_ASCENDING);
         for ($z = 0; $z < sizeof($temp_file_listing); $z++) {
             $temp_file = $temp_file_listing[$z];
+
+            if (in_array($temp_file, $ignored_files)) {
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "$temp_file' is not an accepted file or directory, skipping", "logName" => "main_php"));
+                continue;
+            }
             verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether file '$temp_file' is already queued", "logName" => "main_php"));
 
             $query_args = array(
