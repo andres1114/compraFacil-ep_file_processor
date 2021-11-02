@@ -28,61 +28,7 @@ function doCurl($url,$headers,$rtype,$data) {//url, content type, request type, 
     curl_close($ch);
     return $output;
 }
-function send_email($args) {
 
-    //Define the SMTP email variables
-    $smtp_email_username =      "demo@mailgun.eprensa.com";
-    $smtp_email_password =      "Jwp3uByU";
-    $smtp_email_smtp_name =     "smtp.mailgun.org";
-    $smtp_email_smtp_port =     25;
-
-    //Create the PHPMailer email object
-    $smtp_email_object = new PHPMailer();
-
-    //Define the email object properties
-    $smtp_email_object->CharSet = "utf-8";
-    $smtp_email_object->IsSMTP(true);
-    $smtp_email_object->SMTPAuth = true;
-    $smtp_email_object->Username = $smtp_email_username;
-    $smtp_email_object->Password = $smtp_email_password;
-    $smtp_email_object->SMTPSecure = "tls";
-    $smtp_email_object->Host = $smtp_email_smtp_name;
-    $smtp_email_object->Port = $smtp_email_smtp_port;
-    $smtp_email_object->From = $args['email_from'];
-    $smtp_email_object->FromName = $args['email_from_username'];
-
-    foreach (explode(";",$args['email_to']) as $email_to) {
-        $smtp_email_object->AddAddress($email_to, "");
-    }
-
-    $smtp_email_object->Subject = $args['email_subject'];
-    $smtp_email_object->IsHTML(true);
-
-    //Check for file attachment
-    if (isset($args['attachment_type']) && isset($args['attachment'])) {
-        switch ($args['attachment_type']) {
-            case "text":
-                $smtp_email_object->addStringAttachment($args['attachment'], $args['attachment_filename']);
-                break;
-            case "octet_stream":
-                $smtp_email_object->addAttachment($args['attachment'], $args['attachment_filename'], 'base64', 'application/octet-stream');
-                break;
-        }
-
-    }
-
-    //Set the email body content
-    $smtp_email_object->Body = $args['email_html_message'];
-
-    //Send the email
-    $smtp_email_status = $smtp_email_object->Send();
-
-    //Check whether the email was sent
-    if (!$smtp_email_status) {
-        file_put_contents(realpath(__DIR__)."/error.log","(".Date("Y-m-d H:i:s").") mailgun_webhook_bounce.php > ERR_EMAIL_WAS_NOT_SENT There has been an error attempting to send an email with error message ".$smtp_email_object->ErrorInfo."\r",FILE_APPEND);
-    }
-
-}
 function getDirectorySize($args) {
     if ($args["cross_server_checking"]) {
         $cmd = "ssh ".$args["server_name"]." du -bs ".$args["dir_path"];
