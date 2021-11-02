@@ -1,8 +1,5 @@
 <?php
 
-//Include the PHPMailer library
-require("PHPMailer/PHPMailerAutoload.php");
-
 function verbose($args) {
     switch ($args["outputMode"]) {
         case 0:
