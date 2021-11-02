@@ -31,27 +31,25 @@ $main_directory_listing = scandir($ep_file_path.$epfile_folder,SCANDIR_SORT_ASCE
 for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
     $folder_nydate = $main_directory_listing[$x];
 
-    verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking if folder ".$folder_nydate." is empty", "logName" => "main_php"));
+    verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking if folder ".$folder_nydate." is empty...", "logName" => "main_php"));
     $temp_directory_counter = 0;
     $is_folder_empty = true;
-    for ($y = 0; $y < sizeof($folder_nydate); $y++) {
-        $temp_file_listing = scandir($ep_file_path.$epfile_folder."/".$folder_nydate[$y],SCANDIR_SORT_ASCENDING);
+    $temp_file_listing = scandir($ep_file_path.$epfile_folder."/".$folder_nydate,SCANDIR_SORT_ASCENDING);
 
-        for ($z = 0; $z < sizeof($temp_file_listing); $z++) {
-            $temp_file = $temp_file_listing[$z];
+    for ($z = 0; $z < sizeof($temp_file_listing); $z++) {
+        $temp_file = $temp_file_listing[$z];
 
-            if (!in_array($temp_file, $ignored_files)) {
-                $temp_directory_counter++;
-                break;
-            }
-        }
-
-        if ($temp_directory_counter > 0) {
-            $is_folder_empty = false;
+        if (!in_array($temp_file, $ignored_files)) {
+            $temp_directory_counter++;
             break;
-        } else {
-            $is_folder_empty = true;
         }
+    }
+
+    if ($temp_directory_counter > 0) {
+        $is_folder_empty = false;
+        break;
+    } else {
+        $is_folder_empty = true;
     }
 
     if ($is_folder_empty) {
@@ -59,30 +57,29 @@ for ($x = 0; $x < sizeof($main_directory_listing); $x++) {
         continue;
     } else {
         verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Directory '$folder_nydate' is not empty", "logName" => "main_php"));
-        for ($y = 0; $y < sizeof($folder_nydate); $y++) {
-            $temp_file_listing = scandir($ep_file_path.$epfile_folder."/".$folder_nydate[$y],SCANDIR_SORT_ASCENDING);
-            for ($z = 0; $z < sizeof($temp_file_listing); $z++) {
-                $temp_file = $temp_file_listing[$z];
-                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether file '$temp_file' is already queued", "logName" => "main_php"));
 
+        $temp_file_listing = scandir($ep_file_path.$epfile_folder."/".$folder_nydate,SCANDIR_SORT_ASCENDING);
+        for ($z = 0; $z < sizeof($temp_file_listing); $z++) {
+            $temp_file = $temp_file_listing[$z];
+            verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether file '$temp_file' is already queued", "logName" => "main_php"));
+
+            $query_args = array(
+                'filename' => $temp_file
+            );
+            $query = "SELECT id FROM ep_file_queue WHERE ep_file_name = :filename";
+            $queryData = pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_1");
+
+            if ($queryData[1] == 0) {
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has not been queued", "logName" => "main_php"));
                 $query_args = array(
-                    'filename' => $temp_file
+                    'filename' => $temp_file,
+                    'datefolder' => $folder_nydate
                 );
-                $query = "SELECT id FROM ep_file_queue WHERE ep_file_name = :filename";
-                $queryData = pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_1");
-
-                if ($queryData[1] == 0) {
-                    verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has not been queued", "logName" => "main_php"));
-                    $query_args = array(
-                        'filename' => $temp_file,
-                        'datefolder' => $folder_nydate[$y]
-                );
-                    $query = "INSERT INTO epfiles_queue (ep_file_name, has_been_proccesed, date_folder, is_in_process) VALUES (:filename, 0, :datefolder, 0)";
-                    pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
-                } else {
-                    verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has already been queued, skipping", "logName" => "main_php"));
-                    continue;
-                }
+                $query = "INSERT INTO epfiles_queue (ep_file_name, has_been_proccesed, date_folder, is_in_process) VALUES (:filename, 0, :datefolder, 0)";
+                pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
+            } else {
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The file has already been queued, skipping", "logName" => "main_php"));
+                continue;
             }
         }
     }
