@@ -134,7 +134,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Removing processed files from DB...", "logName" => "process_ep_files_php"));
 $query_args = array();
 $query = "DELETE FROM epfiles_queue WHERE has_been_proccesed = 1";
-doExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_7");
+pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_7");
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done", "logName" => "process_ep_files_php"));
 
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Script done, exiting", "logName" => "process_ep_files_php"));
