@@ -73,7 +73,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
             "productname" => $product_name
             ,"idalmacen" => $domain_id
         );
-        $query = "SELECT id FROM producto WHERE nombre_producto = :productname AND id_almacen = :idalmacen";
+        $query = "SELECT * FROM producto WHERE nombre_producto = :productname AND id_almacen = :idalmacen";
         $inner_queryData = pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_3");
         if ($inner_queryData[1] == 0) {
             verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done, the product doesn't exist", "logName" => "process_ep_files_php"));
