@@ -22,7 +22,7 @@ verbose(array("outputMode" => 0, "outputMessage" => "Used cmd: '$cmd'", "logName
 $output = shell_exec($cmd);
 
 verbose(array("outputMode" => 0, "outputMessage" => "Done", "logName" => "main_php"));
-verbose(array("outputMode" => 0, "outputMessage" => "cmd response:\n $output", "logName" => "main_php"));
+verbose(array("outputMode" => 0, "outputMessage" => "cmd response:\n$output", "logName" => "main_php"));
 verbose(array("outputMode" => 0, "outputMessage" => "Executing '$script_2' script...", "logName" => "main_php"));
 
 $cmd = "php -q ".realpath(__DIR__)."/$script_2 2>&1 &";
@@ -31,7 +31,7 @@ verbose(array("outputMode" => 0, "outputMessage" => "Used cmd: '$cmd'", "logName
 $output = shell_exec($cmd);
 
 verbose(array("outputMode" => 0, "outputMessage" => "Done", "logName" => "main_php"));
-verbose(array("outputMode" => 0, "outputMessage" => "cmd response:\n $output", "logName" => "main_php"));
+verbose(array("outputMode" => 0, "outputMessage" => "cmd response:\n$output", "logName" => "main_php"));
 
 verbose(array("outputMode" => 0, "outputMessage" => "Script done, exiting", "logName" => "main_php"));
 ?>
