@@ -45,7 +45,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
     $file_content = file_get_contents($ep_file_path.$epfile_folder."/".$folderName."/".$filename);
 
     $domain_id_start_str = "DomainId:";
-    $domain_id_end_str = "DomainId:";
+    $domain_id_end_str = ":DomainId";
 
     $domain_id = get_string_between($file_content, $domain_id_start_str, $domain_id_end_str);
     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Domain id: $domain_id", "logName" => "process_ep_files_php"));
