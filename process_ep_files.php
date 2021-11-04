@@ -43,9 +43,12 @@ for ($x = 0; $x < $queryData[1]; $x++) {
 
     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Processing file '".$filename."'", "logName" => "process_ep_files_php"));
     $file_content = file_get_contents($ep_file_path.$epfile_folder."/".$folderName."/".$filename);
+|
+    $domain_id_start_str = "DomainId:";
+    $domain_id_end_str = "DomainId:";
 
-    $str_pos_domain_id_start = strpos($file_content, "DomainId:");
-    $str_pos_domain_id_end = strpos($file_content, ":DomainId");
+    $str_pos_domain_id_start = strpos($file_content, $domain_id_start_str, strlen($domain_id_start_str));
+    $str_pos_domain_id_end = strpos($file_content, $domain_id_end_str);
     $domain_id = substr($file_content, $str_pos_domain_id_start, $str_pos_domain_id_end);
 
     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Domain id: $domain_id", "logName" => "process_ep_files_php"));
@@ -56,9 +59,9 @@ for ($x = 0; $x < $queryData[1]; $x++) {
     $query = "SELECT * FROM scrapped_file_configuration WHERE domain_id = :domainid AND active IS TRUE";
     $inner_queryData = pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_3");
 
-    $str_pos_productName_start = strpos($file_content, $inner_queryData[0][0]["item_1_start_string"]);
+    $str_pos_productName_start = strpos($file_content, $inner_queryData[0][0]["item_1_start_string"], strlen($inner_queryData[0][0]["item_1_start_string"]));
     $str_pos_productName_end = strpos($file_content, $inner_queryData[0][0]["item_1_start_end"]);
-    $str_pos_productPrice_start = strpos($file_content, $inner_queryData[0][0]["item_2_start_string"]);
+    $str_pos_productPrice_start = strpos($file_content, $inner_queryData[0][0]["item_2_start_string"], strlen($inner_queryData[0][0]["item_2_start_string"]));
     $str_pos_productPrice_end = strpos($file_content, $inner_queryData[0][0]["item_2_start_end"]);
 
     $product_name = substr($file_content, $str_pos_productName_start, $str_pos_productName_end);
