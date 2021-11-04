@@ -35,7 +35,7 @@ $id_array = cast_assoc_array_to_array("id", $queryData[0]);
 
 $query_args = array();
 $query = "UPDATE epfiles_queue SET is_in_process = 1 WHERE id IN (".implode(",",$id_array).")";
-#pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
+pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
 
 for ($x = 0; $x < $queryData[1]; $x++) {
     $filename = $queryData[0][$x]["ep_file_name"];
@@ -84,7 +84,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
                 ,"productprice" => $product_price
             );
             $query = "INSERT INTO producto (id_almacen, nombre_producto, precio_producto, id_imagen, activo) VALUES (:idalmacen, :productname, :productprice, NULL, 1)";
-            #pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_4");
+            pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_4");
 
         } else {
             verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done, the product already exists", "logName" => "process_ep_files_php"));
@@ -96,7 +96,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
                     ,"productprice" => $product_price
                 );
                 $query = "UPDATE producto SET precio_producto = :productprice WHERE id = :productid";
-                #pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_5");
+                pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_5");
             } else {
                 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "No product price update found, skipping", "logName" => "process_ep_files_php"));
             }
@@ -119,7 +119,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
     );
     $query = "UPDATE epfiles_queue SET has_been_proccesed = 1 WHERE id = :fileid";
     pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_6");
-    #unlink($ep_file_path.$epfile_folder."/".$folderName."/".$filename);
+    unlink($ep_file_path.$epfile_folder."/".$folderName."/".$filename);
     verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done", "logName" => "process_ep_files_php"));
 }
 
