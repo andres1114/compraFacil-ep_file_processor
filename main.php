@@ -13,6 +13,12 @@ $verbose_output_mode = 1;
 $script_1 = "queue_ep_files.php";
 $script_2 = "process_ep_files.php";
 
+verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Checking whether the main.php file is running...", "logName" => "main_php"));
+if (shell_exec("ps -ef | grep 'main.php' | wc -l") <= 2) {
+    verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Script is running, exiting", "logName" => "main_php"));
+    exit;
+}
+
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Starting the compraFacil main ep_file processor script", "logName" => "main_php"));
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Executing '$script_1' script...", "logName" => "main_php"));
 
