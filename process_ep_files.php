@@ -56,8 +56,8 @@ for ($x = 0; $x < $queryData[1]; $x++) {
     $query = "SELECT * FROM scrapped_file_configuration WHERE domain_id = :domainid AND active IS TRUE";
     $inner_queryData = pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_3");
 
-    $product_name = get_string_between($file_content, $inner_queryData[0][0]["item_1_start_string"], $inner_queryData[0][0]["item_1_start_end"]);
-    $product_price = get_string_between($file_content, $inner_queryData[0][0]["item_2_start_string"], $inner_queryData[0][0]["item_2_start_end"]);
+    $product_name = get_string_between($file_content, $inner_queryData[0][0]["item_1_start_string"], $inner_queryData[0][0]["item_1_end_string"]);
+    $product_price = get_string_between($file_content, $inner_queryData[0][0]["item_2_start_string"], $inner_queryData[0][0]["item_2_end_string"]);
 
     if ($product_name != false && $product_price != false) {
         $product_price = preg_replace("/\s/","",$product_price);
