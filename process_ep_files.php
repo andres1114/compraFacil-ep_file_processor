@@ -35,7 +35,7 @@ $id_array = cast_assoc_array_to_array("id", $queryData[0]);
 
 $query_args = array();
 $query = "UPDATE epfiles_queue SET is_in_process = 1 WHERE id IN (".implode(",",$id_array).")";
-pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
+#pdoExecuteQuery($pdo_sqlite_db, $query, $query_args, "query_2");
 
 for ($x = 0; $x < $queryData[1]; $x++) {
     $filename = $queryData[0][$x]["ep_file_name"];
