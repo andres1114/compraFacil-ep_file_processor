@@ -8,7 +8,7 @@ include_once "db_connection.php";
 //Include the functions file
 include_once "functions.php";
 
-$verbose_output_mode = 0;
+$verbose_output_mode = 1;
 
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Starting the ep_file process script", "logName" => "process_ep_files_php"));
 

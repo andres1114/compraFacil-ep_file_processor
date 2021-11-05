@@ -8,14 +8,14 @@ include_once "db_connection.php";
 //Include the functions file
 include_once "functions.php";
 
-$verbose_output_mode = 0;
+$verbose_output_mode = 1;
 
-verbose(array("outputMode" => 0, "outputMessage" => "Starting the ep_file queue script", "logName" => "queue_ep_files_php"));
+verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Starting the ep_file queue script", "logName" => "queue_ep_files_php"));
 
-verbose(array("outputMode" => 0, "outputMessage" => "Connecting to the CompraFacil database...", "logName" => "queue_ep_files_php"));
+verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Connecting to the CompraFacil database...", "logName" => "queue_ep_files_php"));
 //Create the PDO connection objects
 $pdo_sqlite_db = pdoCreateConnection(array('db_type' => "sqlite", 'db_host' => realpath(__DIR__).'/misc_database.sqlite3', 'db_user' => "root", 'db_pass' => "", 'db_name' => ""));
-verbose(array("outputMode" => 0, "outputMessage" => "Done", "logName" => "queue_ep_files_php"));
+verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done", "logName" => "queue_ep_files_php"));
 
 //Define the constants
 $current_script_path = realpath(__DIR__)."/";
