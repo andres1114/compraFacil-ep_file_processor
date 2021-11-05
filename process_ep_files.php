@@ -89,7 +89,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
         } else {
             verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done, the product already exists", "logName" => "process_ep_files_php"));
             if ($inner_queryData[0][0]["precio_producto"] != $product_price) {
-                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The product price has been updated, from '$product_price' to '".$inner_queryData[0][0]["precio_producto"]."', updating in DB...", "logName" => "process_ep_files_php"));
+                verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "The product price has been updated, from '".$inner_queryData[0][0]["precio_producto"]."' to '".$product_price."', updating in DB...", "logName" => "process_ep_files_php"));
 
                 $query_args = array(
                     "productid" => $inner_queryData[0][0]["id"]
