@@ -10,6 +10,12 @@
     error_reporting(E_ALL);
     ini_set('display_errors', 'On');
 
+    $server_time = new DateTime(null, new DateTimeZone("America/Bogota"));
+
+    define("USER_ID",1);
+    define("USER_NAME","Scrapy");
+    define("SERVER_TIME",$server_time->format('Y-m-d H:i:s'));
+
     function pdoCreateConnection($args) {
         //Define the required and regular parameters to start a DB connection
         $db_host = $args['db_host'];
@@ -245,14 +251,15 @@
     //Define the function to log every INSERT / UPDATE / DELETE action by the user
     function logHandler($args) {
 
-        $pdo_log_db = pdoCreateConnection(array('db_type' => "sqlite", 'db_host' => realpath(__DIR__).'/log_db.sqlite3', 'db_user' => "root", 'db_pass' => "", 'db_name' => ""));
+        ##$pdo_mysql_rw = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "localhost", 'db_user' => "id12782411_ferreteria_root_db_user", 'db_pass' => 'adminEZQW4XB$6n2hf8%', 'db_name' => "id12782411_ferreteria"));
+        $pdo_mysql_rw = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "192.168.10.12", 'db_user' => "root", 'db_pass' => "admin", 'db_name' => "compraFacil"));
 
         $dbtablecolumns = array(
             "user_id"
             ,"user_name"
             ,"timestamp"
-            ,"action"
-            ,"query"
+            ,"logaction"
+            ,"logquery"
         );
 
         switch ($args["action"]) {
@@ -265,7 +272,7 @@
                     ,"logquery" => $args["query"]
                 );
                 $qry = "INSERT INTO log (".implode(",",$dbtablecolumns).") VALUES (:userid,:username,:timestamp,:logaction,:logquery)";
-                pdoExecuteQuery($pdo_log_db,$qry,$qry_args,"log_handler_insert");
+                pdoExecuteQuery($pdo_mysql_rw,$qry,$qry_args,"log_handler_insert");
 
                 break;
             case "update":
@@ -277,7 +284,7 @@
                     ,"logquery" => $args["query"]
                 );
                 $qry = "INSERT INTO log (".implode(",",$dbtablecolumns).") VALUES (:userid,:username,:timestamp,:logaction,:logquery)";
-                pdoExecuteQuery($pdo_log_db,$qry,$qry_args,"log_handler_update");
+                pdoExecuteQuery($pdo_mysql_rw,$qry,$qry_args,"log_handler_update");
 
                 break;
             case "delete":
@@ -290,7 +297,7 @@
                     ,"logquery" => $args["query"]
                 );
                 $qry = "INSERT INTO log (".implode(",",$dbtablecolumns).") VALUES (:userid,:username,:timestamp,:logaction,:logquery)";
-                pdoExecuteQuery($pdo_log_db,$qry,$qry_args,"log_handler_delete");
+                pdoExecuteQuery($pdo_mysql_rw,$qry,$qry_args,"log_handler_delete");
 
                 break;
         }
@@ -298,6 +305,6 @@
         $qry_args = array(
             "timestamp" => SERVER_TIME
         );
-        $qry = "DELETE FROM log WHERE timestamp < date(:timestamp, '-120 day')";
-        pdoExecuteQuery($pdo_log_db,$qry,$qry_args,"log_handler_clear");
+        $qry = "DELETE FROM log WHERE timestamp < DATE_SUB(:timestamp, INTERVAL 120 DAY)";
+        pdoExecuteQuery($pdo_mysql_rw,$qry,$qry_args,"log_handler_clear");
     }

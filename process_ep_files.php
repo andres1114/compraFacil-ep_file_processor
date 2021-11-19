@@ -84,7 +84,8 @@ for ($x = 0; $x < $queryData[1]; $x++) {
                 ,"productprice" => $product_price
             );
             $query = "INSERT INTO producto (id_almacen, nombre_producto, precio_producto, id_imagen, activo) VALUES (:idalmacen, :productname, :productprice, NULL, 1)";
-            pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_4");
+            $inner_query_data = pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_4");
+            logHandler(array("query" => $inner_query_data[2], "action" => "insert"));
 
         } else {
             verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done, the product already exists", "logName" => "process_ep_files_php"));
@@ -96,7 +97,8 @@ for ($x = 0; $x < $queryData[1]; $x++) {
                     ,"productprice" => $product_price
                 );
                 $query = "UPDATE producto SET precio_producto = :productprice WHERE id = :productid";
-                pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_5");
+                $inner_query_data = pdoExecuteQuery($pdo_mysql, $query, $query_args, "query_5");
+                logHandler(array("query" => $inner_query_data[2], "action" => "update"));
             } else {
                 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "No product price update found, skipping", "logName" => "process_ep_files_php"));
             }
