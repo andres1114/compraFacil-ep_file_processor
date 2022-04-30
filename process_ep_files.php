@@ -15,7 +15,7 @@ verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Starting
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Connecting to the CompraFacil database...", "logName" => "process_ep_files_php"));
 //Create the PDO connection objects
 $pdo_sqlite_db = pdoCreateConnection(array('db_type' => "sqlite", 'db_host' => realpath(__DIR__).'/misc_database.sqlite3', 'db_user' => "root", 'db_pass' => "", 'db_name' => ""));
-$pdo_mysql = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "192.168.10.17", 'db_user' => "root", 'db_pass' => "admin", 'db_name' => "compraFacil"));
+$pdo_mysql = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "192.168.18.24", 'db_user' => "root", 'db_pass' => "admin", 'db_name' => "compraFacil"));
 verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Done", "logName" => "process_ep_files_php"));
 
 //Define the constants
