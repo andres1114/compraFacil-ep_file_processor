@@ -62,7 +62,7 @@ for ($x = 0; $x < $queryData[1]; $x++) {
     if ($product_name != false && $product_price != false) {
         $product_price = preg_replace("/\s/","",$product_price);
         $product_price = preg_replace("/\./","",$product_price);
-        $product_price = preg_replace("/,/","",$product_price);
+        $product_price = preg_replace("/,/",".",$product_price);
         $product_price = preg_replace("/\$/","",$product_price);
 
         verbose(array("outputMode" => $verbose_output_mode, "outputMessage" => "Product name: '$product_name'", "logName" => "process_ep_files_php"));
