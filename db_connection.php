@@ -251,7 +251,7 @@
     //Define the function to log every INSERT / UPDATE / DELETE action by the user
     function logHandler($args) {
         
-        $pdo_mysql_rw = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "softwareaez.lol", 'db_user' => "softwaez_comprafacil", 'db_pass' => "BDme2Ne}Pll-", 'db_name' => "softwaez_comprafacil"));
+        $pdo_mysql_rw = pdoCreateConnection(array('db_type' => "mysql", 'db_host' => "softwareaez.lol", 'db_user' => "softwaez_rw", 'db_pass' => "BDme2Ne}Pll-", 'db_name' => "softwaez_comprafacil"));
 
         $dbtablecolumns = array(
             "user_id"
